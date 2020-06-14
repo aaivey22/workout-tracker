@@ -1,13 +1,13 @@
-const db = require("../models/")
 const router = require("express").Router();
+const Workout = require("../models/Workout.js")
 const weight = [];
 
 
 module.exports = function (router) {
 
-
+    // GET router retreives exercise data displayed on /stats page 
     router.get("/api/workouts/range", (req, res) => {
-        db.Workout.find({})
+        Workout.find({})
             // parses and sends it as an array of objects to the front end
             .then(dbWorkout => {
                 res.json(dbWorkout);
@@ -16,6 +16,27 @@ module.exports = function (router) {
                 res.status(400).json(err);
             })
     });
+
+    router.post("/api/workouts", (req, res) => {
+        Workout.create({})
+            .then(result => {
+                res.json(result);
+            })
+            .catch(err => {
+                res.status(400).json(err);
+            });
+    });
+
+    router.put("/api/workouts/:id", (req, res) => {
+        Workout.findByIdAndUpdate(req.params.id,)
+        .then(result => {
+            res.json(result);
+        })
+        .catch(err => {
+            res.status(400).json(err);
+        });
+    })
+
 };
     //     router.post("/api/workouts", function (req, res) {
     //         db.Workout.create({})
@@ -27,20 +48,9 @@ module.exports = function (router) {
     //             });
     //     })
 
-    //     router.put("/api/workouts/:id", function (req, res) {
-    //         db.Workout.findByIdAndUpdate(req.params.id,)
-    //     })
     // }
 
-//     router.post("/api/workouts", (req, res) => {
-//         Workout.create({})
-//             .then(result => {
-//                 res.json(result);
-//             })
-//             .catch(err => {
-//                 res.json(err);
-//             });
-//     });
+
 
 //     router.get("/api/workouts", (req, res) => {
 //         var query = {};
